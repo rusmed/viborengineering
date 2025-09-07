@@ -8,13 +8,48 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<section id="hero" class="py-5 bg-light">
+  <div class="container py-5">
+    <div class="row align-items-center">
+      <div class="col-md-7">
+        <h1 class="display-5 fw-bold">Энергообеспечение объектов под ключ</h1>
+        <p class="lead">Проектирование, строительство, подключение и сопровождение. Работаем с промышленными и коммерческими объектами.</p>
+        <a href="#about" class="btn btn-primary btn-lg me-2">Подробнее</a>
+        <a href="{{ path('app_login') }}" class="btn btn-outline-primary btn-lg">Личный кабинет</a>
+      </div>
+      <div class="col-md-5 text-center">
+        <img src="/images/ok.png" class="img-fluid" alt="Energy">
+      </div>
+    </div>
+  </div>
+</section>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/rustem/projects/viborengineering/src/Controller/IndexController.php'|file_link(0) }}">src/Controller/IndexController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/rustem/projects/viborengineering/templates/index/index.html.twig'|file_link(0) }}">templates/index/index.html.twig</a></code></li>
-    </ul>
-</div>
+<section id="about" class="py-5">
+  <div class="container">
+    <h2 class="mb-4">О компании</h2>
+    <p>Мы предоставляем полный спектр услуг по энергообеспечению: от проектирования сетей до ввода объекта в эксплуатацию и дальнейшего обслуживания.</p>
+  </div>
+</section>
+
+<section id="portfolio" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="mb-4">Портфолио</h2>
+    <div class="row g-4">
+      <div class="col-md-4"><div class="card"><div class="card-body"><h5>Объект А</h5><p>Техприсоединение 2 МВт</p></div></div></div>
+      <div class="col-md-4"><div class="card"><div class="card-body"><h5>Объект Б</h5><p>Строительство КТП</p></div></div></div>
+      <div class="col-md-4"><div class="card"><div class="card-body"><h5>Объект В</h5><p>Проектирование сетей</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="team" class="py-5">
+  <div class="container">
+    <h2 class="mb-4">Команда</h2>
+    <div class="row g-4">
+      <div class="col-md-4"><div class="card"><div class="card-body text-center"><h6>Иван Иванов</h6><p class="text-muted">Руководитель проектов</p></div></div></div>
+      <div class="col-md-4"><div class="card"><div class="card-body text-center"><h6>Петр Петров</h6><p class="text-muted">Главный инженер</p></div></div></div>
+      <div class="col-md-4"><div class="card"><div class="card-body text-center"><h6>Анна Смирнова</h6><p class="text-muted">Архитектор</p></div></div></div>
+    </div>
+  </div>
+</section>
 {% endblock %}

@@ -4,18 +4,24 @@ namespace App\Entity;
 
 use App\Entity\Traits\TimeStampableTrait;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: '`users`')]
 #[ORM\HasLifecycleCallbacks]
 class User
 {
     use TimeStampableTrait;
 
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private Uuid $id;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -32,9 +38,22 @@ class User
     #[ORM\Column]
     private ?int $phone = null;
 
-    public function getId(): ?int
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Project::class, orphanRemoval: true)]
+    private Collection $projects;
+
+    public function __construct()
+    {
+        $this->projects = new ArrayCollection();
+    }
+
+    public function getId(): Uuid
     {
         return $this->id;
+    }
+
+    public function getStringifyId(): string
+    {
+        return $this->id->toRfc4122();
     }
 
     public function getName(): ?string
@@ -95,5 +114,46 @@ class User
         $this->phone = $phone;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Project>
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(Project $project): static
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects->add($project);
+            $project->setUser($this);
+        }
+        return $this;
+    }
+
+    public function removeProject(Project $project): static
+    {
+        if ($this->projects->removeElement($project)) {
+            if ($project->getUser() === $this) {
+                $project->setUser(null);
+            }
+        }
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        $parts = array_filter([
+            $this->surname ?? null,
+            $this->name ?? null,
+            $this->patronymic ?? null,
+        ]);
+        $label = trim(implode(' ', $parts));
+        if ($this->phone !== null) {
+            $label = $label !== '' ? $label . ' (' . $this->phone . ')' : (string)$this->phone;
+        }
+        return $label !== '' ? $label : 'User #' . ($this->id?->toString() ?? '');
     }
 }

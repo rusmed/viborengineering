@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Подтверждение{% endblock %}
+
+{% block body %}
+<div class="container py-5" style="max-width:480px;">
+    <h2 class="mb-4">Введите код из SMS</h2>
+    <p class="text-muted">Мы отправили код на номер {{ phone }}.</p>
+    <div class="alert alert-info">Для демо: код {{ dev_code }}</div>
+    <form method="post" action="{{ path('app_login_verify') }}">
+        <div class="mb-3">
+            <label class="form-label">Код</label>
+            <input type="text" name="code" class="form-control" placeholder="0000" required>
+        </div>
+        <button class="btn btn-success w-100" type="submit">Подтвердить</button>
+    </form>
+</div>
+{% endblock %}

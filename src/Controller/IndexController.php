@@ -11,17 +11,17 @@ class IndexController extends AbstractController
     #[Route('/', name: 'homepage')]
     public function index(): Response
     {
-//        return $this->render('index/index.html.twig', [
-//            'controller_name' => 'IndexController',
-//        ]);
+        return $this->render('index/index.html.twig', [
+            'controller_name' => 'IndexController',
+        ]);
 
-        return new Response(<<<EOF
-            <html>
-                <body>
-                    <img src="/images/ok.png" />
-                </body>
-            </html>
-            EOF
-        );
+//        return new Response(<<<EOF
+//            <html>
+//                <body>
+//                    <img src="/images/ok.png" />
+//                </body>
+//            </html>
+//            EOF
+//        );
     }
 }

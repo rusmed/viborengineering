@@ -49,5 +49,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Users', 'fas fa-users', User::class);
         yield MenuItem::linkToCrud('Projects', 'fas fa-diagram-project', Project::class);
+        yield MenuItem::linkToCrud('Work Requests', 'fas fa-clipboard-list', \App\Entity\WorkRequest::class);
     }
 }

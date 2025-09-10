@@ -38,12 +38,16 @@ class User
     #[ORM\Column]
     private ?int $phone = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Project::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Project::class)]
     private Collection $projects;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: WorkRequest::class)]
+    private Collection $workRequests;
 
     public function __construct()
     {
         $this->projects = new ArrayCollection();
+        $this->workRequests = new ArrayCollection();
     }
 
     public function getId(): Uuid
@@ -143,6 +147,33 @@ class User
         return $this;
     }
 
+    /**
+     * @return Collection<int, WorkRequest>
+     */
+    public function getWorkRequests(): Collection
+    {
+        return $this->workRequests;
+    }
+
+    public function addWorkRequest(WorkRequest $wr): static
+    {
+        if (!$this->workRequests->contains($wr)) {
+            $this->workRequests->add($wr);
+            $wr->setUser($this);
+        }
+        return $this;
+    }
+
+    public function removeWorkRequest(WorkRequest $wr): static
+    {
+        if ($this->workRequests->removeElement($wr)) {
+            if ($wr->getUser() === $this) {
+                $wr->setUser(null);
+            }
+        }
+        return $this;
+    }
+
     public function __toString(): string
     {
         $parts = array_filter([
@@ -154,6 +185,6 @@ class User
         if ($this->phone !== null) {
             $label = $label !== '' ? $label . ' (' . $this->phone . ')' : (string)$this->phone;
         }
-        return $label !== '' ? $label : 'User #' . ($this->id?->toString() ?? '');
+        return $label !== '' ? $label : 'User #' . ($this->getStringifyId() ?? '');
     }
 }

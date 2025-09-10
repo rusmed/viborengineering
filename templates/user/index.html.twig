@@ -27,5 +27,20 @@
         {% endfor %}
         </ul>
     {% endif %}
+
+    <hr>
+    <h4>Заявки на работу</h4>
+    {% if user.workRequests|length == 0 %}
+        <p>Заявок нет.</p>
+    {% else %}
+        <ul>
+        {% for wr in user.workRequests %}
+            <li>
+                <strong>Адрес объекта:</strong> {{ wr.objectAddress }}
+                <span class="text-muted">(статус: {{ wr.statusLabel }})</span>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
 </div>
 {% endblock %}

@@ -31,12 +31,14 @@ class WorkRequest
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private Uuid $id;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'workRequests')]
-    #[ORM\JoinColumn(nullable: false)]
-    private User $user;
+    #[ORM\Column(length: 255)]
+    private string $contactName;
 
     #[ORM\Column(length: 255)]
     private string $objectAddress;
+
+    #[ORM\Column(length: 30)]
+    private string $phone;
 
     #[ORM\Column(type: 'smallint')]
     private int $status = self::STATUS_NEW;
@@ -51,14 +53,14 @@ class WorkRequest
         return $this->id->toRfc4122();
     }
 
-    public function getUser(): User
+    public function getContactName(): string
     {
-        return $this->user;
+        return $this->contactName;
     }
 
-    public function setUser(User $user): static
+    public function setContactName(string $contactName): static
     {
-        $this->user = $user;
+        $this->contactName = $contactName;
         return $this;
     }
 
@@ -70,6 +72,17 @@ class WorkRequest
     public function setObjectAddress(string $objectAddress): static
     {
         $this->objectAddress = $objectAddress;
+        return $this;
+    }
+
+    public function getPhone(): string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): static
+    {
+        $this->phone = $phone;
         return $this;
     }
 

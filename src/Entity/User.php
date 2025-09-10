@@ -41,13 +41,9 @@ class User
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Project::class)]
     private Collection $projects;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: WorkRequest::class)]
-    private Collection $workRequests;
-
     public function __construct()
     {
         $this->projects = new ArrayCollection();
-        $this->workRequests = new ArrayCollection();
     }
 
     public function getId(): Uuid
@@ -142,33 +138,6 @@ class User
         if ($this->projects->removeElement($project)) {
             if ($project->getUser() === $this) {
                 $project->setUser(null);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, WorkRequest>
-     */
-    public function getWorkRequests(): Collection
-    {
-        return $this->workRequests;
-    }
-
-    public function addWorkRequest(WorkRequest $wr): static
-    {
-        if (!$this->workRequests->contains($wr)) {
-            $this->workRequests->add($wr);
-            $wr->setUser($this);
-        }
-        return $this;
-    }
-
-    public function removeWorkRequest(WorkRequest $wr): static
-    {
-        if ($this->workRequests->removeElement($wr)) {
-            if ($wr->getUser() === $this) {
-                $wr->setUser(null);
             }
         }
         return $this;
